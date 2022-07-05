@@ -1,0 +1,12 @@
+<launch>
+
+    <node pkg="tf2_ros" type="static_transform_publisher" name="world_odom" args="0 0 0 0 0 0 1 world odom " />
+    
+    <node pkg="robotics_project_1" type="kinematics" name="kinematics" output="screen"/>
+    <node pkg="robotics_project_1" type="odometry" name="odometry" output="screen"/>
+    
+    <param name="initial_pose/x" value="0.0" />
+    <param name="initial_pose/y" value="0.0" />
+    <param name="initial_pose/theta" value="0.0" />
+
+</launch>

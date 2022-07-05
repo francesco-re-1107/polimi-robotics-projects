@@ -1,0 +1,9 @@
+<launch>
+
+    <param name="use_sim_time" value="true"/>
+
+    <include file = "$(dirname)/static_tf.launch"/>
+    <include file = "$(dirname)/lasers_merger.launch"/> 
+    <node pkg="robotics_project_2" type="odometryTF" name="odometryTF" output="screen"/>
+
+</launch>

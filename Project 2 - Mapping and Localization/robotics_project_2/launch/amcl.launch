@@ -1,0 +1,33 @@
+<launch>
+
+    <!-- COMMON -->
+    <include file = "$(dirname)/common.launch"/>
+
+    <arg name="scan_topic"  default="scan_multi" />
+    <arg name="base_frame"  default="base_link"/>
+    <arg name="odom_frame"  default="odom"/>
+    <arg name="global_frame"  default="map"/>
+
+    <!-- AMCL -->
+    <node pkg="amcl" type="amcl" name="amcl">
+
+        <param name="odom_frame_id" value="$(arg odom_frame)"/> 
+        <param name="base_frame_id" value="$(arg base_frame)"/> 
+        <param name="global_frame_id" value="$(arg global_frame)"/>
+        <remap from="scan" to="$(arg scan_topic)"/>
+
+        <param name="laser_max_range" value="16"/>
+        <param name="odom_model_type" value="omni"/>
+        <param name="max_particles" value="2000" />
+
+    </node>
+
+    <!-- MAP -->
+    <node name="map_server" pkg="map_server" type="map_server" args="$(find robotics_project_2)/map/map.yaml" />
+
+    <!-- Trajectory saver node -->
+    <node name="mapTrajectory"  pkg="robotics_project_2" type="mapTrajectory.py" />
+
+    <!-- RVIZ -->
+    <node type="rviz" name="rviz" pkg="rviz" args="-d $(dirname)/../rviz_configs/amcl.rviz" />
+</launch>

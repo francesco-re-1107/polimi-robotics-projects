@@ -1,0 +1,32 @@
+<launch>
+
+    <!-- COMMON -->
+    <include file = "$(dirname)/common.launch"/>
+
+    <arg name="scan_topic"  default="scan_multi" />
+    <arg name="base_frame"  default="base_link"/>
+    <arg name="odom_frame"  default="odom"/>
+
+	<!-- GMAPPING -->
+    <node pkg="gmapping" type="slam_gmapping" name="slam_gmapping" output="screen">
+        <param name="base_frame" value="$(arg base_frame)"/>
+        <param name="odom_frame" value="$(arg odom_frame)"/>
+        <param name="map_update_interval" value="1.0"/>
+        <remap from="scan" to="$(arg scan_topic)"/>
+
+        <param name="linearUpdate" value="0.5"/>
+        <param name="angularUpdate" value="0.4"/>
+        <param name="minimumScore" value="400"/>
+        <param name="xmin" value="-40.0"/>
+        <param name="ymin" value="-40.0"/>
+        <param name="xmax" value="40.0"/>
+        <param name="ymax" value="40.0"/>
+        <param name="maxUrange" value="16.0"/>
+        <param name="maxRange" value="16.0"/>
+
+    </node>
+
+    <!-- RVIZ -->
+    <node type="rviz" name="rviz" pkg="rviz" args="-d $(dirname)/../rviz_configs/gmapping.rviz" />
+
+</launch>
